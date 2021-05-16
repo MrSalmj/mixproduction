@@ -1,17 +1,69 @@
+const { MongoClient } = require('mongodb')
 var express = require('express')
 var app = express()
 var rp = require('request-promise')
 const port = process.env.PORT || 3000
 const api = process.env.TapSecret
 
+
+app.get('/mongo', (req, res) => {
+    const uri =
+        "mongodb+srv://salmj99:36925814aA!@@testcluster.chbsb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    const client = new MongoClient(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+    async function run() {
+        try {
+            await client.connect();
+            const database = client.db('sample_mflix');
+            const movies = database.collection('movies');
+            // Query for a movie that has the title 'Back to the Future'
+            // const query = { title: 'The Land Beyond the Sunset' };
+
+            // await database.addUser("username", "password", {
+            //     roles: [{ role: "read", db: "reporting" },
+            //     ]
+            // });
+
+
+            // res.send("hi")
+            const query = { runtime: { $lt: 15 } };
+            const options = {
+                // sort returned documents in ascending order by title (A->Z)
+                sort: { title: 1 },
+                // Include only the `title` and `imdb` fields in each returned document
+                projection: { _id: 0, title: 1, imdb: 1 },
+            };
+            const cursor = movies.find(query, options)
+            // const query = { runtime: { $lt: 10 } }
+            // await movies.deleteOne(query).then(() => {
+            //     res.send('deleted')
+            // }).catch(() => {
+            //     res.send('error')
+            // })
+            const array = await cursor.snapshot().toArray()
+
+            res.send(array.length.toString())
+
+            // res.send(cursor.count())
+        } finally {
+            // Ensures that the client will close when you finish/error
+            await client.close();
+        }
+    }
+    run().catch(console.dir);
+})
+
 app.get('/createPayment', async (req, res) => {
+    var amount = req.headers.amount
     let _uri = 'https://api.tap.company/v2/charges'
     let _headers = {
         'Content-Type': 'application/json',
-        'Authorization': api
+        'Authorization': "Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ"
     }
     let _body = {
-        "amount": 1,
+        "amount": amount,
         "currency": "BHD",
         "threeDSecure": true,
         "save_card": false,
@@ -77,7 +129,7 @@ app.get('/', async (req, res) => {
     res.send("hello world")
 })
 
-app.listen(port, async (req, res) => {
-    console.log('server started' + port)
+app.listen(80, async (req, res) => {
+    console.log('server started')
 
 })
