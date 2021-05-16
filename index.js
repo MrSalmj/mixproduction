@@ -2,12 +2,13 @@ var express = require('express')
 var app = express()
 var rp = require('request-promise')
 const port = process.env.PORT || 3000
+const api = process.env.TapSecret
 
 app.get('/createPayment', async (req, res) => {
     let _uri = 'https://api.tap.company/v2/charges'
     let _headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ'
+        'Authorization': api
     }
     let _body = {
         "amount": 1,
