@@ -4,12 +4,10 @@ var app = express()
 var rp = require('request-promise')
 const port = process.env.PORT || 3000
 const api = process.env.TapSecret
+const MONGO_URI = process.env.MONGO
 
-
-app.get('/mongo', (req, res) => {
-    const uri =
-        "mongodb+srv://salmj99:36925814aA!@@testcluster.chbsb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-    const client = new MongoClient(uri, {
+app.get('/mongo', async (req, res) => {
+    const client = new MongoClient(MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
@@ -42,6 +40,7 @@ app.get('/mongo', (req, res) => {
             // }).catch(() => {
             //     res.send('error')
             // })
+
             const array = await cursor.snapshot().toArray()
 
             res.send(array.length.toString())
@@ -129,7 +128,7 @@ app.get('/', async (req, res) => {
     res.send("hello world")
 })
 
-app.listen(80, async (req, res) => {
+app.listen(port, async (req, res) => {
     console.log('server started')
 
 })
