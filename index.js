@@ -1,8 +1,7 @@
 var express = require('express')
 var app = express()
 var rp = require('request-promise')
-
-
+const port = Process.env.PORT || 3000
 
 app.post('createPayment', async (req, res) => {
     let _uri = 'https://api.tap.company/v2/charges'
@@ -73,11 +72,11 @@ app.post('createPayment', async (req, res) => {
 
 })
 
-app.get('', async (req, res) => {
+app.get('/', async (req, res) => {
     res.send("hello world")
 })
 
-app.listen(process.env.PORT || 3000, async (req, res) => {
-    console.log('server started')
+app.listen(port, async (req, res) => {
+    console.log('server started' + port)
 
 })
