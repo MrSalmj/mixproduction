@@ -1,7 +1,7 @@
 var express = require('express')
 var app = express()
 var rp = require('request-promise')
-const port = Process.env.PORT || 3000
+const port = process.env.PORT || 3000
 
 app.post('createPayment', async (req, res) => {
     let _uri = 'https://api.tap.company/v2/charges'
