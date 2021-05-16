@@ -2,9 +2,7 @@ var express = require('express')
 var app = express()
 var rp = require('request-promise')
 
-app.get('', async (req, res) => {
-    res.send("hello world")
-})
+
 
 app.post('createPayment', async (req, res) => {
     let _uri = 'https://api.tap.company/v2/charges'
@@ -75,7 +73,11 @@ app.post('createPayment', async (req, res) => {
 
 })
 
+app.get('', async (req, res) => {
+    res.send("hello world")
+})
+
 app.listen(process.env.PORT || 3000, async (req, res) => {
     console.log('server started')
+
 })
-console.log("hello heroku")
