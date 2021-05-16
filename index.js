@@ -2,7 +2,11 @@ var express = require('express')
 var app = express()
 var rp = require('request-promise')
 
-app.get('createPayment', async (req, res) => {
+app.get('', async (req, res) => {
+    res.send("hello world")
+})
+
+app.post('createPayment', async (req, res) => {
     let _uri = 'https://api.tap.company/v2/charges'
     let _headers = {
         'Content-Type': 'application/json',
@@ -61,11 +65,11 @@ app.get('createPayment', async (req, res) => {
 
     rp(options)
         .then(parsedBody => {
-            res.status(200).send(parsedBody)
+            return parsedBody
 
         })
         .catch(err => {
-            res.send(err)
+            return err
             //.... Please refer to the following official video: https://www.youtube.com/watch?v=7IkUgCLr5oA&t=1s&list=PLl-K7zZEsYLkPZHe41m4jfAxUi0JjLgSM&index=3
         });
 
