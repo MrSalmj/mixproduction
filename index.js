@@ -76,7 +76,7 @@ app.get('/', async (req, res) => {
     res.send("hello world")
 })
 
-app.listen(80, async (req, res) => {
-    console.log('server started')
+app.listen(port, async (req, res) => {
+    console.log('server started' + port)
 
 })
