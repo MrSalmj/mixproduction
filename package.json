@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "promise": "^8.1.0",
+    "request": "^2.88.2",
     "request-promise": "^4.2.6"
   }
 }

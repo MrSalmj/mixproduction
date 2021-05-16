@@ -3,7 +3,7 @@ var app = express()
 var rp = require('request-promise')
 const port = process.env.PORT || 3000
 
-app.post('createPayment', async (req, res) => {
+app.get('/createPayment', async (req, res) => {
     let _uri = 'https://api.tap.company/v2/charges'
     let _headers = {
         'Content-Type': 'application/json',
@@ -62,11 +62,11 @@ app.post('createPayment', async (req, res) => {
 
     rp(options)
         .then(parsedBody => {
-            return parsedBody
+            res.send(parsedBody)
 
         })
         .catch(err => {
-            return err
+            res.send(err)
             //.... Please refer to the following official video: https://www.youtube.com/watch?v=7IkUgCLr5oA&t=1s&list=PLl-K7zZEsYLkPZHe41m4jfAxUi0JjLgSM&index=3
         });
 
@@ -76,7 +76,7 @@ app.get('/', async (req, res) => {
     res.send("hello world")
 })
 
-app.listen(port, async (req, res) => {
-    console.log('server started' + port)
+app.listen(80, async (req, res) => {
+    console.log('server started')
 
 })
